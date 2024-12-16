@@ -7,7 +7,7 @@ import {
 } from '../../tools/common-tools.ts';
 import styled from './style.ts';
 import {useEffect, useState} from 'react';
-import Svg, {Circle} from 'react-native-svg';
+import Svg, {Circle, Line} from 'react-native-svg';
 
 const PomodoroHome = () => {
   const {
@@ -38,6 +38,29 @@ const PomodoroHome = () => {
     <View style={styled.wrapper}>
       <View style={styled.circleOuter}>
         <View style={styled.circleInner}>
+          <Svg>
+            {Array.from({length: 60}).map((_, i) => {
+              const angle = (i * 6 - 90) * (Math.PI / 180);
+              const outerRadius = 46;
+              const innerRadius = i % 5 === 0 ? 42 : 44; // 5분 단위는 더 긴 눈금
+              const x1 = 50 + outerRadius * Math.cos(angle);
+              const y1 = 50 + outerRadius * Math.sin(angle);
+              const x2 = 50 + innerRadius * Math.cos(angle);
+              const y2 = 50 + innerRadius * Math.sin(angle);
+
+              return (
+                <Line
+                  key={i}
+                  x1={`${x1}%`}
+                  y1={`${y1}%`}
+                  x2={`${x2}%`}
+                  y2={`${y2}%`}
+                  stroke="currentColor"
+                  strokeWidth={i % 5 === 0 ? '1.5' : '1'}
+                />
+              );
+            })}
+          </Svg>
           <View style={styled.inputWrapper}>
             {state.currentSession?.status === 'PENDING' && (
               <>
@@ -83,32 +106,6 @@ const PomodoroHome = () => {
           <Button title={'Reset'} onPress={resetSession} />
         )}
       </View>
-      {/*<Svg>
-            {Array.from({length: 60}).map((_, i) => {
-              const angle = (i * 6 - 90) * (Math.PI / 180);
-              const outerRadius = 46;
-              const innerRadius = i % 5 === 0 ? 42 : 44; // 5분 단위는 더 긴 눈금
-              const x1 = 50 + outerRadius * Math.cos(angle);
-              const y1 = 50 + outerRadius * Math.sin(angle);
-              const x2 = 50 + innerRadius * Math.cos(angle);
-              const y2 = 50 + innerRadius * Math.sin(angle);
-
-              return (
-                <>
-                                    <Line
-                  key={i}
-                  x1={`${x1}%`}
-                  y1={`${y1}%`}
-                  x2={`${x2}%`}
-                  y2={`${y2}%`}
-                  stroke="currentColor"
-                  strokeWidth={i % 5 === 0 ? '1.5' : '1'}
-                />
-
-                </>
-              );
-            })}
-          </Svg>*/}
     </View>
   );
 };

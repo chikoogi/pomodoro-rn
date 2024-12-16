@@ -5,6 +5,7 @@ export default {
     flex: 1;
     justify-content: center;
     align-items: center;
+    position: relative;
   `,
   circleOuter: css`
     position: relative;
