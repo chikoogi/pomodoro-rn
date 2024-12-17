@@ -126,28 +126,42 @@ export const usePomodoro = (todoId: string) => {
   useEffect(() => {
     if (state.currentSession.status !== 'RUNNING') return;
 
-    const timer = setInterval(() => {
-      setState(prev => {
-        if (prev.timeRemaining <= 0) {
-          clearInterval(timer);
-          if (!prev.isBreak) {
-            completeSession();
-          } else {
-            return {
-              ...prev,
-              isBreak: false,
-              timeRemaining: DEFAULT_SETTINGS.workDuration * 60,
-            };
-          }
-        }
-        return {
-          ...prev,
-          timeRemaining: prev.timeRemaining - 1,
-        };
-      });
-    }, 1000);
+    let prevTime = Date.now();
+    const interval = 1000;
+    let timerEl: NodeJS.Timeout | null = null;
 
-    return () => clearInterval(timer);
+    const step = () => {
+      const curTime = Date.now();
+      const diff = curTime - prevTime;
+      const delay = interval - (diff - interval);
+
+      prevTime = curTime;
+
+      // 여기서 상태 갱신 로직 추가 예: 남은 시간 감소
+      setState(prev => {
+        const newTimeRemaining = prev.timeRemaining - interval / 1000;
+
+        if (newTimeRemaining <= 0) {
+          // 타이머 끝났을 때 로직
+          timerEl && clearTimeout(timerEl);
+          return {
+            ...prev,
+            timeRemaining: prev.currentSession.duration,
+            currentSession: {...prev.currentSession, status: 'PENDING'},
+          };
+        } else {
+          return {...prev, timeRemaining: newTimeRemaining};
+        }
+      });
+
+      timerEl = setTimeout(step, delay);
+    };
+
+    timerEl = setTimeout(step, interval);
+
+    return () => {
+      if (timerEl !== null) clearTimeout(timerEl);
+    };
   }, [
     state.currentSession,
     state.isBreak,
@@ -166,3 +180,31 @@ export const usePomodoro = (todoId: string) => {
     resetSession,
   };
 };
+
+/*const timer = setInterval(() => {
+      const now = Date.now();
+      setState(prev => {
+        const delta = (now - prevTime) / 1000; // ms -> sec
+        const newTimeRemaining = prev.timeRemaining - delta;
+
+        console.log('timer', newTimeRemaining);
+
+        prevTime = now; // 여기서 prevTime 갱신
+
+        if (newTimeRemaining <= 0) {
+          clearInterval(timer);
+          completeSession();
+          return {
+            ...prev,
+            isBreak: false,
+            timeRemaining: DEFAULT_SETTINGS.workDuration * 60,
+          };
+        }
+        return {
+          ...prev,
+          timeRemaining: newTimeRemaining,
+        };
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);*/
