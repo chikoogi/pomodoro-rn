@@ -37,7 +37,6 @@ export const usePomodoro = (todoId: string) => {
   });
 
   const startSession = useCallback(() => {
-    if (!state.currentSession) return;
     const session: PomodoroSession = {
       ...state.currentSession,
       status: 'RUNNING',
@@ -50,12 +49,10 @@ export const usePomodoro = (todoId: string) => {
       isBreak: false,
       updatedAt: new Date(),
     }));
-  }, [todoId]);
+  }, [todoId, state.currentSession]);
 
   const updateSession = useCallback(
     (updated: Partial<PomodoroSession>) => {
-      if (!state.currentSession) return;
-
       const session = {
         ...state.currentSession,
         ...updated,
@@ -72,8 +69,6 @@ export const usePomodoro = (todoId: string) => {
   );
 
   const pauseSession = useCallback(() => {
-    if (!state.currentSession) return;
-
     setState(prev => ({
       ...prev,
       currentSession: {
@@ -85,8 +80,6 @@ export const usePomodoro = (todoId: string) => {
   }, [state.currentSession]);
 
   const resumeSession = useCallback(() => {
-    if (!state.currentSession) return;
-
     setState(prev => ({
       ...prev,
       currentSession: {
@@ -98,12 +91,10 @@ export const usePomodoro = (todoId: string) => {
   }, [state.currentSession]);
 
   const completeSession = useCallback(() => {
-    if (!state.currentSession) return;
-
     const session: PomodoroSession = {
       ...state.currentSession,
-      status: 'COMPLETED' as const,
-      endTime: new Date(),
+      status: 'PENDING' as const,
+      // endTime: new Date(),
       updatedAt: new Date(),
     };
 
@@ -112,13 +103,11 @@ export const usePomodoro = (todoId: string) => {
       currentSession: session,
       completedSessions: prev.completedSessions + 1,
       isBreak: true,
-      timeRemaining: prev.currentSession!.duration,
+      timeRemaining: prev.currentSession.duration,
     }));
   }, [state.currentSession]);
 
   const resetSession = useCallback(() => {
-    if (!state.currentSession) return;
-
     const session: PomodoroSession = {
       ...state.currentSession,
       status: 'PENDING',
@@ -135,8 +124,7 @@ export const usePomodoro = (todoId: string) => {
 
   // 타이머 업데이트
   useEffect(() => {
-    if (!state.currentSession || state.currentSession.status !== 'RUNNING')
-      return;
+    if (state.currentSession.status !== 'RUNNING') return;
 
     const timer = setInterval(() => {
       setState(prev => {

@@ -23,7 +23,7 @@ function App(): React.JSX.Element {
         <Stack.Screen
           name="PomodoroHome"
           component={PomodoroHome}
-          options={{title: 'Overview'}}
+          options={{title: 'Pomodoro'}}
         />
 
         <Stack.Screen name="PomodoroList" component={PomodoroList} />

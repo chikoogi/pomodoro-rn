@@ -5,7 +5,26 @@ export default {
     flex: 1;
     justify-content: center;
     align-items: center;
+    //position: relative;
+  `,
+  svgWrapper: css`
     position: relative;
+    left: 0;
+    top: 0;
+
+    //width: 300px;
+    //height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
+  timerSvg: css`
+    width: 300px;
+    height: 300px;
+  `,
+  lineWrapper: css`
+    position: absolute;
+    //transition: all 1s linear;
   `,
   circleOuter: css`
     position: relative;
@@ -29,13 +48,28 @@ export default {
     align-items: center;
   `,
   inputWrapper: css`
-    width: 178px;
-    display: flex;
+    position: absolute;
     align-items: center;
     justify-content: center;
     flex-direction: row;
   `,
   timerWrapper: css`
+    position: absolute;
     font-weight: bold;
+  `,
+  timeRemaining: css`
+    font-weight: bold;
+  `,
+  buttonGroup: css`
+    flex-direction: row;
+    margin-top: 30px;
+    gap: 10px;
+  `,
+  completeWrapper: css`
+    margin: 20px;
+    font-weight: bold;
+  `,
+  titleWrapper: css`
+    margin-bottom: 40px;
   `,
 };
