@@ -20,6 +20,7 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
 } from 'react-native-reanimated';
+import {Badge, Divider} from "react-native-paper";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -50,10 +51,6 @@ const PomodoroHome = () => {
   const normalizedRadius = radius - strokeWidth / 2;
   const circumference = 2 * Math.PI * normalizedRadius; // 원둘레
 
-  // const strokeDashoffset = useDerivedValue(
-  //   () => (progress / 100) * circumference - circumference,
-  //   [progress],
-  // );
 
   const pr = useSharedValue(0); // 진행 상태 초기값
 
@@ -123,7 +120,7 @@ const PomodoroHome = () => {
             </Text>
           </View>
         )}
-        {state.currentSession?.status === 'PENDING' && (
+            {state.currentSession?.status === 'PENDING' && (
           <View style={styled.inputWrapper}>
             <TextInput
               value={min}
