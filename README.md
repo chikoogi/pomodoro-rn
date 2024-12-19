@@ -1,79 +1,50 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+## 📌 프로젝트 개요
+Pomodoro 프로젝트는 생산성을 극대화하기 위해 설계된 타이머 기반 작업 관리 애플리케이션입니다. React Native로 개발되었으며, 직관적이고 사용자 친화적인 UI를 제공합니다.
 
-# Getting Started
+---
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+### 🔧 주요 기능
 
-## Step 1: Start the Metro Server
+#### 1️⃣ 기본 기능: 포모도로 시계
+- ⏱ **타이머 설정**: 작업 시간(기본값: 25분)과 휴식 시간(기본값: 5분)을 설정할 수 있습니다.
+- ▶️ **타이머 시작/일시정지/재시작**: 타이머를 시작, 일시정지 및 재시작할 수 있습니다.
+- 🔔 **타이머 종료 알림**: 작업 시간 또는 휴식 시간이 끝나면 알림을 제공합니다.
+- 🔄 **주기 반복**: 작업 시간과 휴식 시간이 순환되며 자동 실행됩니다.
+- 🎨 **시계 애니메이션**: 원형 진행 바와 시침/분침 애니메이션으로 타이머의 진행 상태를 시각적으로 확인할 수 있습니다.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+#### 2️⃣ 포모도로 리스트 관리
+- 📋 **리스트 생성 및 관리**: 여러 개의 포모도로를 생성하고 관리할 수 있습니다.
+- ✅ **포모도로 선택**: 특정 포모도로를 선택하여 작업을 시작할 수 있습니다.
+- 📊 **상태 표시**: 포모도로의 현재 상태(대기, 진행 중, 완료됨)를 확인할 수 있습니다.
+- 🗑 **삭제 및 수정**: 포모도로 항목을 삭제하거나 수정할 수 있습니다.
 
-To start Metro, run the following command from the _root_ of your React Native project:
+#### 3️⃣ 로컬 스토리지 지원
+- 💾 **데이터 저장**: React Native 로컬 스토리지(`AsyncStorage`, `MMKV`)를 활용하여 데이터를 안전하게 저장합니다.
+- 📂 **데이터 로드**: 앱 실행 시 저장된 포모도로 리스트와 설정 데이터를 자동으로 불러옵니다.
+- 🔄 **자동 저장**: 포모도로 상태나 리스트가 변경될 때 자동 저장됩니다.
+- 🛡 **안정성 보장**: 데이터 손실 방지를 위해 예외 처리가 구현되어 있습니다.
 
-```bash
-# using npm
-npm start
+#### 4️⃣ 통계 및 성과 관리
+- 📈 **완료 통계**: 완료한 포모도로 세션 수를 요약 및 표시합니다.
+- 📊 **그래프 시각화**: 일별, 주별, 월별 성과 데이터를 그래프로 확인할 수 있습니다.
+- ⏱ **작업 시간 분석**: 총 작업 시간과 휴식 시간 비율을 분석하여 제공합니다.
+- 🏆 **성과 보상**: 특정 수의 포모도로를 완료하면 배지나 칭찬 메시지로 보상을 제공합니다.
 
-# OR using Yarn
-yarn start
-```
+#### 5️⃣ 알림 및 리마인더
+- 🔔 **푸시 알림**: 작업 또는 휴식 시간 시작 시 푸시 알림을 제공합니다.
+- ⏰ **리마인더 설정**: 특정 시간에 포모도로 작업 시작 알림을 받을 수 있습니다.
+- 📳 **백그라운드 알림**: 앱이 백그라운드 상태에서도 타이머 진행 상황을 알립니다.
 
-## Step 2: Start your Application
+#### 6️⃣ 사용자 커스터마이징
+- 🎨 **테마 변경**: 다크 모드와 라이트 모드를 지원하며, 배경색과 폰트 스타일을 사용자 지정할 수 있습니다.
+- 🔔 **타이머 소리 설정**: 타이머 종료 시 알림음을 선택하거나 사용자 지정 음원을 추가할 수 있습니다.
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+---
 
-### For Android
+### 💻 기술 스택
+- **프레임워크**: React Native
+- **애니메이션**: React Native Reanimated
+- **스토리지**: AsyncStorage, MMKV
+- **네이티브 모듈**: React Native
 
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+---
