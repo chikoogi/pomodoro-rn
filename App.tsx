@@ -8,6 +8,7 @@ import {PaperProvider} from "react-native-paper";
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
+
   return (
       <PaperProvider>
     <NavigationContainer>

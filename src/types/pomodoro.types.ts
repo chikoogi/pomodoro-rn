@@ -2,11 +2,10 @@ export type PomodoroStatus = 'PENDING' | 'RUNNING' | 'PAUSED' | 'COMPLETED';
 
 export interface PomodoroSession {
   id: string;
-  todoId: string;
   title: string;
   duration: number;
-  status: PomodoroStatus;
-  timeRemaining: number;
+  breakDuration: number;
+  completedSessions: number;
   startTime?: Date | null;
   endTime?: Date | null;
   createdAt: Date;
@@ -22,7 +21,7 @@ export interface PomodoroSettings {
 
 export interface PomodoroState {
   currentSession: PomodoroSession;
+  status: PomodoroStatus;
   timeRemaining: number; // 초 단위
   isBreak: boolean;
-  completedSessions: number;
 }
