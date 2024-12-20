@@ -9,7 +9,7 @@ import {PomodoroState} from '../types/pomodoro.types';
  *
  * */
 
-export const usePomodoro = ({session, updateSession}: any) => {
+export const usePomodoro = ({session, onUpdate}: any) => {
   const [state, setState] = useState<PomodoroState>({
     currentSession: session,
     timeRemaining: session.duration,
@@ -68,14 +68,14 @@ export const usePomodoro = ({session, updateSession}: any) => {
         const newTimeRemaining = prev.timeRemaining - interval / 1000;
 
         if (newTimeRemaining <= 0) {
-          updateSession({
-            completedSessions: prev.currentSession.completedSessions + 1,
-          });
-
           // 타이머 끝났을 때 로직
           timerEl && clearTimeout(timerEl);
           return {
             ...prev,
+            currentSession: {
+              ...prev.currentSession,
+              completedSessions: prev.currentSession.completedSessions + 1,
+            },
             status: 'PENDING',
             isBreak: false,
             timeRemaining: prev.currentSession.duration,
@@ -93,7 +93,7 @@ export const usePomodoro = ({session, updateSession}: any) => {
     return () => {
       if (timerEl) clearTimeout(timerEl);
     };
-  }, [state.status, updateSession, session]);
+  }, [state.status]);
 
   useEffect(() => {
     setState({
@@ -103,6 +103,10 @@ export const usePomodoro = ({session, updateSession}: any) => {
       isBreak: false,
     });
   }, [session]);
+
+  useEffect(() => {
+    onUpdate({completedSessions: state.currentSession.completedSessions});
+  }, [state.currentSession.completedSessions]);
 
   return {
     state,

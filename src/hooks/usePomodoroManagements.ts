@@ -2,6 +2,7 @@ import {useStorage} from './useStorage.ts';
 import {PomodoroSession, PomodoroSettings} from '../types/pomodoro.types.ts';
 import {useCallback, useEffect, useState} from 'react';
 import {DEFAULT_SESSION} from '../variables/pomodoro-variable.ts';
+import {getStorageData, saveStorageData} from '../tools/storage-tool.ts';
 
 /*
  * usePomodoroManagements
@@ -9,7 +10,7 @@ import {DEFAULT_SESSION} from '../variables/pomodoro-variable.ts';
  * storage 관리
  * */
 export const usePomodoroManagement = () => {
-  const [sessions, setSessions, isLoading1] = useStorage<PomodoroSession[]>(
+  const [sessions, setSessions, isLoading] = useStorage<PomodoroSession[]>(
     `pomodoro_list`,
     [DEFAULT_SESSION],
   );
@@ -26,6 +27,7 @@ export const usePomodoroManagement = () => {
 
   const updateSession = useCallback(
     (id: string, updates: Partial<PomodoroSession>) => {
+      console.log('setSession');
       setSessions(prev => {
         return prev.map(session =>
           session.id === id
@@ -44,22 +46,9 @@ export const usePomodoroManagement = () => {
     [setSessions],
   );
 
-  /*const updateSelectedSession = useCallback(
-    (session: PomodoroSession) => {
-      setSelectedSession(session);
-    },
-    [setSelectedSession],
-  );
-
-  useEffect(() => {
-    if (!selectedSession && !isLoading1) {
-      setSelectedSession(sessions[0]);
-    }
-  }, [sessions, isLoading1, selectedSession]);*/
-
   return {
+    isLoading,
     sessions,
-    isLoading: isLoading1,
     addSession,
     updateSession,
     deleteSession,

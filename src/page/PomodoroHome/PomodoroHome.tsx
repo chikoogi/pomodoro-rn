@@ -6,12 +6,21 @@ import {usePomodoroManagement} from '../../hooks/usePomodoroManagements.ts';
 import TimerForm from '../../components/TimerForm/TimerForm.tsx';
 import TimerTemplate from '../../components/TimerTemplate/TImerTemplate.tsx';
 import {PomodoroSession} from '../../types/pomodoro.types.ts';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {getStorageData, saveStorageData} from '../../tools/storage-tool.ts';
 
 const PomodoroHome = () => {
   const {sessions, isLoading, updateSession} = usePomodoroManagement();
   const [selected, setSelected] = useState<PomodoroSession | null>(null);
+
+  const onUpdate = useCallback(
+    (updates: Partial<PomodoroSession>) => {
+      if (selected) {
+        updateSession(selected.id, updates);
+      }
+    },
+    [updateSession, selected],
+  );
 
   useEffect(() => {
     if (!isLoading) {
@@ -24,28 +33,13 @@ const PomodoroHome = () => {
     }
   }, [isLoading, sessions]);
 
-  useEffect(() => {
-    if (selected) {
-      saveStorageData('selected-pomodoro', JSON.stringify(selected));
-    }
-  }, [selected]);
-
   if (isLoading && selected)
     return (
       <View>
         <Text>isLoading...</Text>
       </View>
     );
-  return (
-    selected && (
-      <TimerTemplate
-        session={selected}
-        onUpdate={(updates: Partial<PomodoroSession>) => {
-          updateSession(selected.id, updates);
-        }}
-      />
-    )
-  );
+  return selected && <TimerTemplate session={selected} onUpdate={onUpdate} />;
 };
 export default PomodoroHome;
 

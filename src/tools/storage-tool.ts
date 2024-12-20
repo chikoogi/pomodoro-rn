@@ -1,8 +1,8 @@
-import { MMKV } from 'react-native-mmkv';
+import {MMKV} from 'react-native-mmkv';
 
 export const storage = new MMKV();
 
-export const saveStorageData = (key:string, value:string) => {
+export const saveStorageData = (key: string, value: any) => {
   try {
     storage.set(key, JSON.stringify(value));
   } catch (error) {
@@ -10,7 +10,7 @@ export const saveStorageData = (key:string, value:string) => {
   }
 };
 
-export const getStorageData = (key:string) => {
+export const getStorageData = (key: string) => {
   try {
     const value = storage.getString(key);
     return value ? JSON.parse(value) : null;
@@ -19,7 +19,7 @@ export const getStorageData = (key:string) => {
   }
 };
 
-export const removeStorageData = (key:string) => {
+export const removeStorageData = (key: string) => {
   try {
     storage.delete(key);
   } catch (error) {

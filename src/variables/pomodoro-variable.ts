@@ -1,7 +1,7 @@
 import {PomodoroSession, PomodoroSettings} from '../types/pomodoro.types.ts';
 
 export const DEFAULT_SETTINGS: PomodoroSettings = {
-  workDuration: 15 * 60,
+  workDuration: 2,
   breakDuration: 5 * 60,
   longBreakDuration: 15 * 60,
   sessionsUntilLongBreak: 0,

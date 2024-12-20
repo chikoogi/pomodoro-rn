@@ -13,9 +13,11 @@ const TimerTemplate = ({
   onUpdate: any;
 }) => {
   const {state, startSession, pauseSession, resumeSession, resetSession} =
-    usePomodoro({session: session, updateSession: onUpdate});
+    usePomodoro({
+      session: session,
+      onUpdate: onUpdate,
+    });
 
-  console.log(session);
   return (
     <View style={styled.wrapper}>
       <View style={styled.titleWrapper}>

@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {getStorageData, saveStorageData} from '../tools/storage-tool.ts';
 
 export function useStorage<T>(key: string, initialValue: T) {
@@ -43,19 +43,16 @@ export function useStorage<T>(key: string, initialValue: T) {
     }
   }, [key]);
 
-  const setValue = useCallback(
-    (value: T | ((val: T) => T)) => {
-      try {
-        const valueToStore =
-          value instanceof Function ? value(storedValue) : value;
-        setStoredValue(valueToStore);
-        saveStorageData(key, JSON.stringify(valueToStore));
-      } catch (error) {
-        console.error('Error writing to localStorage:', error);
-      }
-    },
-    [storedValue],
-  );
+  const setValue = (value: T | ((val: T) => T)) => {
+    try {
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      saveStorageData(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error('Error writing to localStorage:', error);
+    }
+  };
 
   return [storedValue, setValue, !isInitialized] as const;
 }
